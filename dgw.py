@@ -27,7 +27,7 @@ class Demo(tk.Frame):
         self.msg_text = tk.StringVar()
         self.msg = tk.Message(self, textvariable=self.msg_text, width=100)
         self.msg.grid(row=0, column=0)
-
+	
         self.picture = tk.PhotoImage(file='MM.gif')
 	# left, top, right, bottom.
 	# 0: Exit button.
@@ -56,8 +56,9 @@ class Demo(tk.Frame):
             self.msg_text.set('Write menu.')
 	# If nothing clicked we say so.
         if (hit == None):
+            Screen=0
             self.msg_text.set('Nothing selected.')
 
 app = Demo()
-app.master.title('Image Mapper')
+app.master.title('Digital Ghostwriter')
 app.mainloop()
