@@ -43,13 +43,20 @@ class Demo(tk.Frame):
         self.image.bind('<Button-1>', self.image_click)
         self.image.grid(row=1, column=0)
 
-        self.quitButton = tk.Button(self, text='Quit', command=self.quit)
-        self.quitButton.grid(row=2, column=0)
-
     def image_click(self, event):
         hit = self.imagemapper.find_rect(event.x, event.y)
-        self.msg_text.set('{} clicked'.format('nothing' if hit is None else
-                                              'rect[{}]'.format(hit)))
+        # If the user clicks the exit button, quit.
+        if (hit == 0):
+            quit()
+	# If the user clicks the genre button go to the genre menu.
+        if (hit == 1):
+            self.msg_text.set('Genre menu.')
+	# If the user clicks the write button go to the write menu.
+        if (hit == 2):
+            self.msg_text.set('Write menu.')
+	# If nothing clicked we say so.
+        if (hit == None):
+            self.msg_text.set('Nothing selected.')
 
 app = Demo()
 app.master.title('Image Mapper')
