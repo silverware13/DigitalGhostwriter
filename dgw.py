@@ -1,6 +1,6 @@
 # Digital Ghostwriter
 # 2/12/2018
-
+#Tommy wuz here
 from collections import namedtuple
 import tkinter as tk
 
