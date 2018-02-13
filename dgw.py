@@ -9,11 +9,13 @@ import sys
 #from tkinter import *
 import tkinter as tk
 
-App = tk.Tk()
+root = tk.Tk()
+frame = tk.Frame(root)
+frame.pack()
 
 # Set window size and name.
-App.geometry("829x556")
-App.title("Digital Ghostwriter")
+root.geometry("829x556")
+root.title("Digital Ghostwriter")
 
 # Set image.
 image = tk.PhotoImage(file="MM.gif")
@@ -21,4 +23,8 @@ label = tk.Label(image=image)
 label.image = image
 label.pack()
 
-App.mainloop()
+# Exit button.
+button = tk.Button(frame, text="QUIT", fg="red", command=quit)
+button.pack(side=tk.LEFT)
+
+root.mainloop()
