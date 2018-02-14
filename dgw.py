@@ -47,10 +47,13 @@ class Page1(Page):
 	# If the user clicks the genre button go to the genre menu.
         if (hit == 1):
             self.msg_text.set('Genre menu.')
+            Page2.lift           
+            # Go to page2.
 	# If the user clicks the write button go to the write menu.
         if (hit == 2):
             self.msg_text.set('Write menu.')
-	# If nothing clicked we say so.
+            Page3.lift
+	# If nothing clicked we say nothing was selected.
         if (hit == None):
             Screen=0
             self.msg_text.set('Nothing selected.')
@@ -88,7 +91,7 @@ class Page2(Page):
         # If the user clicks the return button, go to main menu.
         if (hit == 1):
             self.msg_text.set('Return to main.')
-	# If nothing clicked we say so.
+	# If nothing clicked we say nothing was selected.
         if (hit == None):
             Screen=0
             self.msg_text.set('Nothing selected.')
@@ -121,12 +124,12 @@ class Page3(Page):
         # If the user clicks the exit button, quit.
         if (hit == 0):
             quit()
-	# If nothing clicked we say so.
+	# If nothing clicked we say nothing was selected.
         if (hit == None):
             Screen=0
             self.msg_text.set('Nothing selected.')
 
-
+# Main view.
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
@@ -171,6 +174,3 @@ if __name__ == "__main__":
     main.pack(side="top", fill="both", expand=True)
     root.wm_geometry("829x556")
     root.mainloop()
-
-appo= Demo()
-app.mainloop()
