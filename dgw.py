@@ -1,12 +1,10 @@
 # Digital Ghostwriter
 # 2/12/2018
-#Tommy wuz here
+
 from collections import namedtuple
 import tkinter as tk
 
 Rect = namedtuple('Rect', 'x0, y0, x1, y1')
-
-## TEST
 
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
@@ -72,8 +70,10 @@ class Page2(Page):
        self.picture = tk.PhotoImage(file='G1.gif')
 	# left, top, right, bottom.
 	# 0: Exit button.
+	# 1: Return to main menu.
        img_rects = [
-              Rect(750, 0, 829, 64)]
+              Rect(750, 0, 829, 64),
+              Rect(0, 0, 64, 64)]
        self.imagemapper = ImageMapper(self.picture, img_rects)
         # use Label widget to display image
        self.image = tk.Label(self, image=self.picture, borderwidth=0)
@@ -85,6 +85,9 @@ class Page2(Page):
         # If the user clicks the exit button, quit.
         if (hit == 0):
             quit()
+        # If the user clicks the return button, go to main menu.
+        if (hit == 1):
+            self.msg_text.set('Return to main.')
 	# If nothing clicked we say so.
         if (hit == None):
             Screen=0
@@ -149,8 +152,6 @@ class MainView(tk.Frame):
         b3.pack(side="left")
 
         p1.show()
-
-## TEST
 
 class ImageMapper(object):
     def __init__(self, image, img_rects):
