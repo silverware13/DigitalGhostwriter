@@ -14,6 +14,7 @@ class Page(tk.Frame):
     def show(self):
         self.lift()
 
+# PAGE ONE - Main menu.
 class Page1(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
@@ -56,17 +57,72 @@ class Page1(Page):
             Screen=0
             self.msg_text.set('Nothing selected.')
 
+# PAGE TWO - Genre.
 class Page2(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="This is page 2!")
-       label.pack(side="top", fill="both", expand=True)
+       self.grid()
+       self.create_widgets()
 
+   def create_widgets(self):
+       self.msg_text = tk.StringVar()
+       self.msg = tk.Message(self, textvariable=self.msg_text, width=100)
+       self.msg.grid(row=0, column=0)
+	
+       self.picture = tk.PhotoImage(file='G1.gif')
+	# left, top, right, bottom.
+	# 0: Exit button.
+       img_rects = [
+              Rect(750, 0, 829, 64)]
+       self.imagemapper = ImageMapper(self.picture, img_rects)
+        # use Label widget to display image
+       self.image = tk.Label(self, image=self.picture, borderwidth=0)
+       self.image.bind('<Button-1>', self.image_click)
+       self.image.grid(row=1, column=0)
+
+   def image_click(self, event):
+        hit = self.imagemapper.find_rect(event.x, event.y)
+        # If the user clicks the exit button, quit.
+        if (hit == 0):
+            quit()
+	# If nothing clicked we say so.
+        if (hit == None):
+            Screen=0
+            self.msg_text.set('Nothing selected.')
+
+# PAGE THREE - Write.
 class Page3(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="This is page 3")
-       label.pack(side="top", fill="both", expand=True)
+       self.grid()
+       self.create_widgets()
+
+   def create_widgets(self):
+       self.msg_text = tk.StringVar()
+       self.msg = tk.Message(self, textvariable=self.msg_text, width=100)
+       self.msg.grid(row=0, column=0)
+	
+       self.picture = tk.PhotoImage(file='W1.gif')
+	# left, top, right, bottom.
+	# 0: Exit button.
+       img_rects = [
+              Rect(750, 0, 829, 64)]
+       self.imagemapper = ImageMapper(self.picture, img_rects)
+        # use Label widget to display image
+       self.image = tk.Label(self, image=self.picture, borderwidth=0)
+       self.image.bind('<Button-1>', self.image_click)
+       self.image.grid(row=1, column=0)
+
+   def image_click(self, event):
+        hit = self.imagemapper.find_rect(event.x, event.y)
+        # If the user clicks the exit button, quit.
+        if (hit == 0):
+            quit()
+	# If nothing clicked we say so.
+        if (hit == None):
+            Screen=0
+            self.msg_text.set('Nothing selected.')
+
 
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
@@ -109,11 +165,11 @@ class ImageMapper(object):
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.title("Digital Ghostwriter")
     main = MainView(root)
     main.pack(side="top", fill="both", expand=True)
-    root.wm_geometry("400x400")
+    root.wm_geometry("829x556")
     root.mainloop()
 
 appo= Demo()
-app.master.title('Digital Ghostwriter')
 app.mainloop()
