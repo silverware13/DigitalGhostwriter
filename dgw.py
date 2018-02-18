@@ -18,7 +18,8 @@ class Page1(Page):
        Page.__init__(self, *args, **kwargs)
        self.grid()
        self.create_widgets()
-
+   def setup_pages(self,pg):
+       self.pages = pg
    def create_widgets(self):
        self.msg_text = tk.StringVar()
        self.msg = tk.Message(self, textvariable=self.msg_text, width=100)
@@ -38,25 +39,29 @@ class Page1(Page):
        self.image = tk.Label(self, image=self.picture, borderwidth=0)
        self.image.bind('<Button-1>', self.image_click)
        self.image.grid(row=1, column=0)
+       
+       
 
    def image_click(self, event):
-        hit = self.imagemapper.find_rect(event.x, event.y)
-        # If the user clicks the exit button, quit.
-        if (hit == 0):
-            quit()
+       hit = self.imagemapper.find_rect(event.x, event.y)
+	# If the user clicks the exit button, quit.
+       if (hit == 0):
+          quit()
 	# If the user clicks the genre button go to the genre menu.
-        if (hit == 1):
-            self.msg_text.set('Genre menu.')
-            Page2.lift           
-            # Go to page2.
+       if (hit == 1):
+           self.msg_text.set('Genre menu.')
+           self.pages[0].lift()
+           print("p2 .lift")  
+	# Go to page2.
 	# If the user clicks the write button go to the write menu.
-        if (hit == 2):
-            self.msg_text.set('Write menu.')
-            Page3.lift
+       if (hit == 2):
+           self.msg_text.set('Write menu.')
+           self.pages[1].lift()
+           print("p3 .lift")
 	# If nothing clicked we say nothing was selected.
-        if (hit == None):
-            Screen=0
-            self.msg_text.set('Nothing selected.')
+       if (hit == None):
+           Screen=0
+           self.msg_text.set('Nothing selected.')
 
 # PAGE TWO - Genre.
 class Page2(Page):
@@ -133,9 +138,11 @@ class Page3(Page):
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
-        p1 = Page1(self)
         p2 = Page2(self)
         p3 = Page3(self)
+        p1 = Page1(self)
+        pg = [p2,p3]
+        p1.setup_pages(pg)
 
         buttonframe = tk.Frame(self)
         container = tk.Frame(self)
