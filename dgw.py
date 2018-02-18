@@ -18,8 +18,10 @@ class Page1(Page):
        Page.__init__(self, *args, **kwargs)
        self.grid()
        self.create_widgets()
+   
    def setup_pages(self,pg):
        self.pages = pg
+   
    def create_widgets(self):
        self.msg_text = tk.StringVar()
        self.msg = tk.Message(self, textvariable=self.msg_text, width=100)
@@ -50,14 +52,12 @@ class Page1(Page):
 	# If the user clicks the genre button go to the genre menu.
        if (hit == 1):
            self.msg_text.set('Genre menu.')
-           self.pages[0].lift()
-           print("p2 .lift")  
+           self.pages[1].lift()
 	# Go to page2.
 	# If the user clicks the write button go to the write menu.
        if (hit == 2):
            self.msg_text.set('Write menu.')
-           self.pages[1].lift()
-           print("p3 .lift")
+           self.pages[2].lift()
 	# If nothing clicked we say nothing was selected.
        if (hit == None):
            Screen=0
@@ -70,6 +70,9 @@ class Page2(Page):
        self.grid()
        self.create_widgets()
 
+   def setup_pages(self,pg):
+       self.pages = pg
+   
    def create_widgets(self):
        self.msg_text = tk.StringVar()
        self.msg = tk.Message(self, textvariable=self.msg_text, width=100)
@@ -95,7 +98,8 @@ class Page2(Page):
             quit()
         # If the user clicks the return button, go to main menu.
         if (hit == 1):
-            self.msg_text.set('Return to main.')
+           self.msg_text.set('Return to main.')
+           self.pages[0].lift()
 	# If nothing clicked we say nothing was selected.
         if (hit == None):
             Screen=0
@@ -108,6 +112,9 @@ class Page3(Page):
        self.grid()
        self.create_widgets()
 
+   def setup_pages(self,pg):
+       self.pages = pg
+
    def create_widgets(self):
        self.msg_text = tk.StringVar()
        self.msg = tk.Message(self, textvariable=self.msg_text, width=100)
@@ -117,7 +124,8 @@ class Page3(Page):
 	# left, top, right, bottom.
 	# 0: Exit button.
        img_rects = [
-              Rect(750, 0, 829, 64)]
+              Rect(750, 0, 829, 64),
+              Rect(0, 0, 64, 64)]
        self.imagemapper = ImageMapper(self.picture, img_rects)
         # use Label widget to display image
        self.image = tk.Label(self, image=self.picture, borderwidth=0)
@@ -129,6 +137,10 @@ class Page3(Page):
         # If the user clicks the exit button, quit.
         if (hit == 0):
             quit()
+        # If the user clicks the return button, go to main menu.
+        if (hit == 1):
+           self.msg_text.set('Return to main.')
+           self.pages[0].lift()
 	# If nothing clicked we say nothing was selected.
         if (hit == None):
             Screen=0
@@ -141,25 +153,18 @@ class MainView(tk.Frame):
         p2 = Page2(self)
         p3 = Page3(self)
         p1 = Page1(self)
-        pg = [p2,p3]
+        pg = [p1,p2,p3]
+        
         p1.setup_pages(pg)
+        p2.setup_pages(pg)
+        p3.setup_pages(pg)
 
-        buttonframe = tk.Frame(self)
         container = tk.Frame(self)
-        buttonframe.pack(side="top", fill="x", expand=False)
         container.pack(side="top", fill="both", expand=True)
 
         p1.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-
-        b1 = tk.Button(buttonframe, text="Page 1", command=p1.lift)
-        b2 = tk.Button(buttonframe, text="Page 2", command=p2.lift)
-        b3 = tk.Button(buttonframe, text="Page 3", command=p3.lift)
-
-        b1.pack(side="left")
-        b2.pack(side="left")
-        b3.pack(side="left")
 
         p1.show()
 
