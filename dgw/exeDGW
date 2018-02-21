@@ -1,0 +1,4 @@
+#!/bin/bash
+source ~/venvs/tensorflow/bin/activate
+python3.6 dgw.py
+deactivate

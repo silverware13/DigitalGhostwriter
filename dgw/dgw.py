@@ -274,8 +274,6 @@ class ImageMapper(object):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Digital Ghostwriter")
-    # Set up env.
-    #os.system("source ./env/bin/activate")
     main = MainView(root)
     main.pack(side="top", fill="both", expand=True)
     root.wm_geometry("829x556")
