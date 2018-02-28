@@ -163,37 +163,32 @@ class Page5(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
        self.grid()
+       #self.make_page("Name", "OTHERNAME")
        self.create_widgets()
+
+   def make_page(self, name):
+       PageGenre(self, name).lift()
+   
+   def create_widgets(self):
+       for x in os.listdir("./genre"):       
+          tk.Button(self, text=x, command= lambda: self.make_page(x)).pack()
 
    def setup_pages(self,pg):
        self.pages = pg
-   
-   def create_widgets(self):
-       self.picture = tk.PhotoImage(file='G1.gif')
-	# left, top, right, bottom.
-	# 0: Exit button.
-	# 1: Return to main menu.
-       img_rects = [
-              Rect(750, 0, 829, 64),
-              Rect(0, 0, 64, 64),
-              Rect(581, 97, 795, 145)]
-       self.imagemapper = ImageMapper(self.picture, img_rects)
-        # use Label widget to display image
-       self.image = tk.Label(self, image=self.picture, borderwidth=0)
-       self.image.bind('<Button-1>', self.image_click)
-       self.image.grid(row=1, column=0)
 
-   def image_click(self, event):
-        hit = self.imagemapper.find_rect(event.x, event.y)
-        # If the user clicks the exit button, quit.
-        if (hit == 0):
-            quit()
-        # If the user clicks the return button, go to main menu.
-        if (hit == 1):
-           self.pages[0].lift()
-        # If the user clicks the horror button, go to horror menu.
-        if (hit == 2):
-           self.pages[5].lift()
+# GENRE PAGE.
+class PageGenre(Page):
+   def __init__(self, *args, **kwargs):
+       Page.__init__(self, *args, **kwargs)
+       self.grid()
+       self.create_widgets(args)
+   
+   def create_widgets(self, *args):
+       for x in os.listdir("./genre/"+args[0]):       
+          tk.Button(self, text=x).pack()
+
+   def setup_pages(self,pg):
+       self.pages = pg
 
 # PAGE SIX - Horror.
 class Page6(Page):
