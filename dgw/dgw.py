@@ -162,29 +162,28 @@ class Page4(Page):
 class Page5(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
-       self.grid()
        #self.make_page("Name", "OTHERNAME")
        self.create_widgets()
 
-   def make_page(self, name):
-       PageGenre(self, name).lift()
-   
    def create_widgets(self):
        for x in os.listdir("./genre"):       
           tk.Button(self, text=x, command= lambda: self.make_page(x)).pack()
 
-   def setup_pages(self,pg):
+   def make_page(self, name):
+       pg = PageGenre(self, name)
+       pg.lift()
+   
+   def setup_pages(self, pg):
        self.pages = pg
 
 # GENRE PAGE.
 class PageGenre(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
-       self.grid()
-       self.create_widgets(args)
+       self.create_widgets(args[0])
    
-   def create_widgets(self, *args):
-       for x in os.listdir("./genre/"+args[0]):       
+   def create_widgets(self, name):
+       for x in os.listdir("./genre/" + name):       
           tk.Button(self, text=x).pack()
 
    def setup_pages(self,pg):
