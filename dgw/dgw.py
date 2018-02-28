@@ -162,85 +162,58 @@ class Page4(Page):
 class Page5(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
-       #self.make_page("Name", "OTHERNAME")
-       self.create_widgets()
 
    def create_widgets(self):
+       self.back = tk.Button(self, text="Back", command=self.pages[0].lift)
+       self.back.pack(side=tk.LEFT)
+       self.btns = []
        for x in os.listdir("./genre"):       
-          tk.Button(self, text=x, command= lambda: self.make_page(x)).pack()
+           self.btns.append(tk.Button(self, text=x, command= lambda: self.make_page(x)))
+       for b in self.btns:
+           b.pack()
 
    def make_page(self, name):
-       pg = PageGenre(self, name)
+       pg = PageGenre(self)
+       pg.setup_pages(self.pages)
+       pg.create_widgets(name)
+       pg.place(in_=self, x=0, y=0, relwidth=1, relheight=1)
        pg.lift()
    
    def setup_pages(self, pg):
        self.pages = pg
+       self.create_widgets()
 
 # GENRE PAGE.
 class PageGenre(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
-       self.create_widgets(args[0])
    
    def create_widgets(self, name):
-       for x in os.listdir("./genre/" + name):       
+      self.back = tk.Button(self, text="Back", command=self.destroy)
+      self.back.pack(side=tk.LEFT)
+      for x in os.listdir("./genre/" + name):       
           tk.Button(self, text=x).pack()
 
-   def setup_pages(self,pg):
+   def setup_pages(self, pg):
        self.pages = pg
-
-# PAGE SIX - Horror.
-class Page6(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       self.grid()
-       self.create_widgets()
-
-   def setup_pages(self,pg):
-       self.pages = pg
-   
-   def create_widgets(self):
-       self.picture = tk.PhotoImage(file='G2.gif')
-	# left, top, right, bottom.
-	# 0: Exit button.
-	# 1: Return to main menu.
-       img_rects = [
-              Rect(750, 0, 829, 64),
-              Rect(0, 0, 64, 64)]
-       self.imagemapper = ImageMapper(self.picture, img_rects)
-        # use Label widget to display image
-       self.image = tk.Label(self, image=self.picture, borderwidth=0)
-       self.image.bind('<Button-1>', self.image_click)
-       self.image.grid(row=1, column=0)
-
-   def image_click(self, event):
-        hit = self.imagemapper.find_rect(event.x, event.y)
-        # If the user clicks the exit button, quit.
-        if (hit == 0):
-            quit()
-        # If the user clicks the return button, go to genre menu.
-        if (hit == 1):
-           self.pages[4].lift()
 
 # Main view.
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
-        p6 = Page6(self)
         p5 = Page5(self)
         p4 = Page4(self)
         p3 = Page3(self)
         p2 = Page2(self)
         p1 = Page1(self)
         
-        pg = [p1,p2,p3,p4,p5,p6]
+        pg = [p1,p2,p3,p4,p5]
         
         p1.setup_pages(pg)
         p2.setup_pages(pg)
         p3.setup_pages(pg)
         p4.setup_pages(pg)
         p5.setup_pages(pg)
-        p6.setup_pages(pg)
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -250,7 +223,6 @@ class MainView(tk.Frame):
         p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p4.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p5.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-        p6.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
         p1.show()
 
