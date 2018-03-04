@@ -122,7 +122,7 @@ class Page3(Page):
            self.pages[1].lift()
         # If the user clicks the done button, go to finish write page.
         if (hit == 2):
-           os.system("python sample.py > ./stories/myStory.txt")
+           os.system("python sample.py -n 100 --save_dir save/horror > ./stories/myStory.txt")
            self.pages[3].lift()
 
 # PAGE FOUR - Write done.
