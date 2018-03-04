@@ -168,7 +168,7 @@ class Page5(Page):
        self.back.pack(side=tk.LEFT)
        self.btns = []
        for x in os.listdir("./genre"):       
-           self.btns.append(tk.Button(self, text=x, command= lambda: self.make_page(x)))
+           self.btns.append(tk.Button(self, text=x, command= lambda y=x: self.make_page(y)))
        for b in self.btns:
            b.pack()
 
