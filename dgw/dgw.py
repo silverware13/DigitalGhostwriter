@@ -98,7 +98,7 @@ class Page2(Page):
        self.update() # Updates our image before running next command.
        string_wrdCnt = self.wrdCnt.get() # Get the word count from the word count entry.
        string_name = self.fileName.get() # Get the file name from the file name entry.
-       cmd = "python sample.py -n " + string_wrdCnt + " --save_dir save/horror > ./stories/" + string_name  + ".txt" # Save our command with vars.
+       cmd = "python sample.py -n " + string_wrdCnt + " --quiet --save_dir save/horror > ./stories/" + string_name  + ".txt" # Save our command with vars.
        self.wrdCnt.delete(0, END) # Clear word count entry.
        self.fileName.delete(0, END) # Clear file name entry.
        os.system(cmd) # Next write our file.
