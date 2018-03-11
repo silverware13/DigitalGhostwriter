@@ -4,6 +4,7 @@
 from collections import namedtuple
 import tkinter as tk
 import os
+from tkinter.font import Font
 
 Rect = namedtuple('Rect', 'x0, y0, x1, y1')
 
@@ -162,13 +163,15 @@ class Page4(Page):
 class Page5(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
+       self.configure(bg='#6D9EEB') # Set our background to a dark blue color.
 
    def create_widgets(self):
-       self.back = tk.Button(self, text="Back", command=self.pages[0].lift)
+       btnFont = Font(family='Helvetica', size=20) # This is the font we use for our buttons.
+       self.back = tk.Button(self, text="Back", bg='#CFE2F3', bd=0, height=3, width=10, font=btnFont, command=self.pages[0].lift)
        self.back.pack(side=tk.LEFT)
        self.btns = []
        for x in os.listdir("./genre"):       
-           self.btns.append(tk.Button(self, text=x, command= lambda y=x: self.make_page(y)))
+           self.btns.append(tk.Button(self, text=x, bg='#CFE2F3', bd=0, height=3, width=15, font=btnFont, command= lambda y=x: self.make_page(y)))
        for b in self.btns:
            b.pack()
 
@@ -183,7 +186,7 @@ class Page5(Page):
        self.pages = pg
        self.create_widgets()
 
-# GENRE PAGE.
+# SPECIFIC GENRE PAGE.
 class PageGenre(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
