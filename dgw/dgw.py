@@ -84,15 +84,21 @@ class Page2(Page):
        self.btns = []
        i = 0
        ii = 1
+       self.current_genre = "comedy"
        for x in os.listdir("./genre"):       
-           self.btns.append(tk.Button(frame, text=x, bg='#B6D7A8', bd=0, height=3, width=15, font=btnFont)) # Genre buttons.
+           self.btns.append(tk.Button(frame, text=x, bg='#B6D7A8', bd=0, height=3, width=15, font=btnFont, command= lambda y=x: self.genre_pressed(y))) # Genre buttons.
        for b in self.btns:
            b.grid(row=ii, column=i, padx=10, pady=10)
            i += 1
            if i > 2:
               i = 0
               ii += 1
-
+   def genre_pressed(self, text):
+       for b in self.btns:
+           b.configure(bg='#B6D7A8')           
+           if b['text'] in text:
+               b.configure(bg='#FFD966')
+               self.current_genre = text
    def verify_fields(self):
        try:
        	   self.string_wrdCnt = self.wrdCnt.get() # Get the word count from the word count field.
