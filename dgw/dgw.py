@@ -62,20 +62,28 @@ class Page2(Page):
        self.configure(bg='#74A84F') # Set our background to a green color.
 
    def create_widgets(self):
+       frame = Frame(self)
+       frame.configure(bg='#74A84F') # Set our background to a green color.
+       frame.grid(row=2, column=0, padx=10, pady=10) # This frame holds all buttons.
+       frameDone = Frame(self)
+       frameDone.configure(bg='#74A84F') # Set our background to a green color.
+       frameDone.grid(row=3, column=0, padx=10, pady=10) # This frame holds the text fields and the done button.
        btnFont = Font(family='Helvetica', size=15, weight='bold') # This is the font we use for our buttons.
-       #self.wrdCnt = Entry()
-       #self.wrdCnt.place(relx=0.5, rely=0.5) # Text field for word count.
-       #self.fileName = Entry()
-       #self.fileName.place(relx=0.5, rely=0.8) # Text field for filename.
-       self.done = tk.Button(self, text="Done", bg='#FFD966', bd=0, height=3, width=10, font=btnFont, command= self.write_story ) # Done button.
-       self.done.grid(row=10, column=2, padx=10, pady=100)
-       self.back = tk.Button(self, text="Back", bg='#B6D7A8', bd=0, height=3, width=10, font=btnFont, command=self.pages[0].lift) # Back button.
-       self.back.grid(row=10, column=0, padx=10, pady=100)
+       self.cntLabel = Label(frameDone, text="Story Word Count", font=btnFont, bg='#B6D7A8')
+       self.cntLabel.grid(row=1, column=0, padx=10, pady=10) # Label for word count.
+       self.wrdCnt = Entry(frameDone, font=btnFont)
+       self.wrdCnt.grid(row=2, column=0, padx=10, pady=10) # Text field for word count.
+       self.fileLabel = Label(frameDone, text="Story Name", font=btnFont, bg='#B6D7A8')
+       self.fileLabel.grid(row=3, column=0, padx=10, pady=10) # Label for story name.
+       self.fileName = Entry(frameDone, font=btnFont)
+       self.fileName.grid(row=4, column=0, padx=10, pady=10) # Text field for file name.
+       self.done = tk.Button(frameDone, text="Done", bg='#FFD966', bd=0, height=3, width=10, font=btnFont, command= self.write_story ) # Done button.
+       self.done.grid(row=5, column=0, padx=10, pady=30)
        self.btns = []
        i = 0
-       ii = 0
+       ii = 1
        for x in os.listdir("./genre"):       
-           self.btns.append(tk.Button(self, text=x, bg='#B6D7A8', bd=0, height=3, width=15, font=btnFont)) # Genre buttons.
+           self.btns.append(tk.Button(frame, text=x, bg='#B6D7A8', bd=0, height=3, width=15, font=btnFont)) # Genre buttons.
        for b in self.btns:
            b.grid(row=ii, column=i, padx=10, pady=10)
            i += 1
@@ -84,18 +92,41 @@ class Page2(Page):
               ii += 1
 
    def write_story(self):
-       self.picture = tk.PhotoImage(file='W2.gif')
-       self.image = tk.Label(self, image=self.picture, borderwidth=0)
-       self.image.grid(row=0, column=0) # Display an image saying 'Writing story to file... please wait'.
+       self.picturepop = tk.PhotoImage(file='W2.gif')
+       self.imagepop = tk.Label(self, image=self.picturepop, borderwidth=0)
+       self.imagepop.grid(row=0, column=0) # Display an image saying 'Writing story to file... please wait'.
        self.update() # Updates our image before running next command.
        os.system("python sample.py -n 100 --save_dir save/horror > ./stories/myStory.txt") # Next write our file.
+       self.imagepop.destroy()
        self.pages[3].lift() # When done writing story go to finished page.
        
    def setup_pages(self, pg):
        self.pages = pg
-       self.create_widgets()
+       self.setup_header()
+       self.create_widgets()   
 
-# PAGE THREE - Write done.
+   def setup_header(self):
+       self.picture = tk.PhotoImage(file='HEADER.gif')
+       # 0: Back button.
+       # 1: Exit button.
+       img_rects = [
+              Rect(0, 0, 64, 64),
+              Rect(750, 0, 829, 64)]
+       self.imagemapper = ImageMapper(self.picture, img_rects)
+       self.image = tk.Label(self, image=self.picture, borderwidth=0)
+       self.image.bind('<Button-1>', self.image_click)
+       self.image.grid(row=1, column=0)
+
+   def image_click(self, event):
+       hit = self.imagemapper.find_rect(event.x, event.y)
+       # If the user clicks the back button go back a page.
+       if (hit == 0):
+           self.pages[0].lift()
+       # If the user clicks the exit button, quit.
+       if (hit == 1):
+          quit()
+
+# PAGE THREE - <REMOVE ME>
 class Page3(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
@@ -119,15 +150,15 @@ class Page3(Page):
        self.image = tk.Label(self, image=self.picture, borderwidth=0)
        self.image.bind('<Button-1>', self.image_click)
        self.image.grid(row=1, column=0)
-
+ 
    def image_click(self, event):
-        hit = self.imagemapper.find_rect(event.x, event.y)
-        # If the user clicks the exit button, quit.
-        if (hit == 0):
-            quit()
-        # If the user clicks the done button, go to write menu.
-        if (hit == 1):
+       hit = self.imagemapper.find_rect(event.x, event.y)
+       # If the user clicks the back button go back a page.
+       if (hit == 0):
            self.pages[0].lift()
+       # If the user clicks the exit button, quit.
+       if (hit == 1):
+          quit()
 
 # PAGE FOUR - Write done.
 class Page4(Page):
@@ -172,7 +203,7 @@ class Page5(Page):
    def create_widgets(self):
        frame = Frame(self)
        frame.configure(bg='#6D9EEB') # Set our background to a blue color.
-       frame.grid(row=2, column=0, padx=10, pady=10) # This frame holds all buttons.
+       frame.grid(row=2, column=0) # This frame holds all buttons.
        btnFont = Font(family='Helvetica', size=20, weight='bold') # This is the font we use for our buttons.
        self.btns = []
        i = 0
@@ -183,7 +214,7 @@ class Page5(Page):
            b.grid(row=ii, column=i, padx=10, pady=10)
            i += 1
            if i > 2:
-              i = 1
+              i = 0
               ii += 1
 
    def make_page(self, name):
@@ -226,23 +257,46 @@ class PageGenre(Page):
        self.configure(bg='#6D9EEB') # Set our background to a blue color.
    
    def create_widgets(self, name):
+      frame = Frame(self)
+      frame.configure(bg='#6D9EEB') # Set our background to a blue color.
+      frame.grid(row=2, column=0, padx=10, pady=10) # This frame holds all buttons.
       btnFont = Font(family='Helvetica', size=15, weight='bold') # This is the font we use for our buttons.
-      self.back = tk.Button(self, text="Back", bg='#CFE2F3', bd=0, height=3, width=10, font=btnFont, command=self.destroy)
-      self.back.grid(row=10, column=0, padx=10, pady=100)
       self.btns = []
       i = 0
       ii = 1
       for x in os.listdir("./genre/" + name): 
-          self.btns.append(tk.Button(self, text=x, bg='#CFE2F3', bd=0, height=3, width=15, font=btnFont))
+          self.btns.append(tk.Button(frame, text=x, bg='#CFE2F3', bd=0, height=3, width=15, font=btnFont))
       for b in self.btns:
           b.grid(row=ii, column=i, padx=10, pady=10)
           i += 1
           if i > 2:
-             i = 1
+             i = 0
              ii += 1
 
    def setup_pages(self, pg):
        self.pages = pg
+       self.setup_header()
+
+   def setup_header(self):
+       self.picture = tk.PhotoImage(file='HEADER.gif')
+       # 0: Back button.
+       # 1: Exit button.
+       img_rects = [
+              Rect(0, 0, 64, 64),
+              Rect(750, 0, 829, 64)]
+       self.imagemapper = ImageMapper(self.picture, img_rects)
+       self.image = tk.Label(self, image=self.picture, borderwidth=0)
+       self.image.bind('<Button-1>', self.image_click)
+       self.image.grid(row=1, column=0)
+   
+   def image_click(self, event):
+       hit = self.imagemapper.find_rect(event.x, event.y)
+       # If the user clicks the back button go back a page.
+       if (hit == 0):
+          self.destroy()
+       # If the user clicks the exit button, quit.
+       if (hit == 1):
+          quit()
 
 # Main view.
 class MainView(tk.Frame):
