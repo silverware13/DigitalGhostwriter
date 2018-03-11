@@ -170,19 +170,20 @@ class Page5(Page):
        self.configure(bg='#6D9EEB') # Set our background to a blue color.
 
    def create_widgets(self):
+       frame = Frame(self)
+       frame.configure(bg='#6D9EEB') # Set our background to a blue color.
+       frame.grid(row=2, column=0, padx=10, pady=10) # This frame holds all buttons.
        btnFont = Font(family='Helvetica', size=20, weight='bold') # This is the font we use for our buttons.
-       self.back = tk.Button(self, text="Back", bg='#CFE2F3', bd=0, height=3, width=10, font=btnFont, command=self.pages[0].lift)
-       self.back.grid(row=10, column=0, padx=10, pady=100)
        self.btns = []
        i = 0
        ii = 1
        for x in os.listdir("./genre"):       
-           self.btns.append(tk.Button(self, text=x, bg='#CFE2F3', bd=0, height=3, width=15, font=btnFont, command= lambda y=x: self.make_page(y)))
+           self.btns.append(tk.Button(frame, text=x, bg='#CFE2F3', bd=0, height=3, width=15, font=btnFont, command= lambda y=x: self.make_page(y)))
        for b in self.btns:
            b.grid(row=ii, column=i, padx=10, pady=10)
            i += 1
            if i > 2:
-              i = 0
+              i = 1
               ii += 1
 
    def make_page(self, name):
@@ -194,7 +195,29 @@ class Page5(Page):
    
    def setup_pages(self, pg):
        self.pages = pg
+       self.setup_header()
        self.create_widgets()
+       
+   def setup_header(self):
+       self.picture = tk.PhotoImage(file='HEADER.gif')
+       # 0: Back button.
+       # 1: Exit button.
+       img_rects = [
+              Rect(0, 0, 64, 64),
+              Rect(750, 0, 829, 64)]
+       self.imagemapper = ImageMapper(self.picture, img_rects)
+       self.image = tk.Label(self, image=self.picture, borderwidth=0)
+       self.image.bind('<Button-1>', self.image_click)
+       self.image.grid(row=1, column=0)
+ 
+   def image_click(self, event):
+       hit = self.imagemapper.find_rect(event.x, event.y)
+       # If the user clicks the back button go back a page.
+       if (hit == 0):
+           self.pages[0].lift()
+       # If the user clicks the exit button, quit.
+       if (hit == 1):
+          quit()
 
 # SPECIFIC GENRE PAGE.
 class PageGenre(Page):
@@ -215,7 +238,7 @@ class PageGenre(Page):
           b.grid(row=ii, column=i, padx=10, pady=10)
           i += 1
           if i > 2:
-             i = 0
+             i = 1
              ii += 1
 
    def setup_pages(self, pg):
