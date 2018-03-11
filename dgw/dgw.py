@@ -118,9 +118,12 @@ class Page2(Page):
        cmd = "python sample.py -n " + self.string_wrdCnt + " --quiet --save_dir save/horror > ./stories/" + self.string_name  + ".txt" # Save our command with vars.
        self.wrdCnt.delete(0, END) # Clear word count entry.
        self.fileName.delete(0, END) # Clear file name entry.
-       os.system(cmd) # Next write our file.
+       exstat = os.system(cmd) # Next write our file.
        self.imagepop.destroy()
-       self.pages[3].lift() # When done writing story go to finished page.
+       if exstat != 0:
+           messagebox.showerror("Write Error", "Failed to write story.")
+       else:
+           self.pages[3].lift() # When done writing story go to finished page.
        
    def setup_pages(self, pg):
        self.pages = pg
