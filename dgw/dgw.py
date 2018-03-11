@@ -96,7 +96,12 @@ class Page2(Page):
        self.imagepop = tk.Label(self, image=self.picturepop, borderwidth=0)
        self.imagepop.grid(row=0, column=0) # Display an image saying 'Writing story to file... please wait'.
        self.update() # Updates our image before running next command.
-       os.system("python sample.py -n 100 --save_dir save/horror > ./stories/myStory.txt") # Next write our file.
+       string_wrdCnt = self.wrdCnt.get() # Get the word count from the word count entry.
+       string_name = self.fileName.get() # Get the file name from the file name entry.
+       cmd = "python sample.py -n " + string_wrdCnt + " --save_dir save/horror > ./stories/" + string_name  + ".txt" # Save our command with vars.
+       self.wrdCnt.delete(0, END) # Clear word count entry.
+       self.fileName.delete(0, END) # Clear file name entry.
+       os.system(cmd) # Next write our file.
        self.imagepop.destroy()
        self.pages[3].lift() # When done writing story go to finished page.
        
