@@ -69,11 +69,11 @@ class Page2(Page):
        frameDone.configure(bg='#74A84F') # Set our background to a green color.
        frameDone.grid(row=3, column=0, padx=10, pady=10) # This frame holds the text fields and the done button.
        btnFont = Font(family='Helvetica', size=15, weight='bold') # This is the font we use for our buttons.
-       self.cntLabel = Label(frameDone, text="Story Word Count", font=btnFont, bg='#B6D7A8')
+       self.cntLabel = Label(frameDone, text="Story Word Count", font=btnFont, bg='#74A84F')
        self.cntLabel.grid(row=1, column=0, padx=10, pady=10) # Label for word count.
        self.wrdCnt = Entry(frameDone, font=btnFont)
        self.wrdCnt.grid(row=2, column=0, padx=10, pady=10) # Text field for word count.
-       self.fileLabel = Label(frameDone, text="Story Name", font=btnFont, bg='#B6D7A8')
+       self.fileLabel = Label(frameDone, text="Story Name", font=btnFont, bg='#74A84F')
        self.fileLabel.grid(row=3, column=0, padx=10, pady=10) # Label for story name.
        self.fileName = Entry(frameDone, font=btnFont)
        self.fileName.grid(row=4, column=0, padx=10, pady=10) # Text field for file name.
@@ -92,7 +92,7 @@ class Page2(Page):
               ii += 1
 
    def write_story(self):
-       self.picturepop = tk.PhotoImage(file='W2.gif')
+       self.picturepop = tk.PhotoImage(file='WW.gif')
        self.imagepop = tk.Label(self, image=self.picturepop, borderwidth=0)
        self.imagepop.grid(row=0, column=0) # Display an image saying 'Writing story to file... please wait'.
        self.update() # Updates our image before running next command.
@@ -106,7 +106,7 @@ class Page2(Page):
        self.create_widgets()   
 
    def setup_header(self):
-       self.picture = tk.PhotoImage(file='HEADER.gif')
+       self.picture = tk.PhotoImage(file='HG.gif')
        # 0: Back button.
        # 1: Exit button.
        img_rects = [
@@ -131,34 +131,10 @@ class Page3(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
        self.grid()
-       self.create_widgets()
        self.configure(bg='#74A84F') # Set our background to a green color.
 
    def setup_pages(self,pg):
        self.pages = pg
-   
-   def create_widgets(self):
-       self.picture = tk.PhotoImage(file='W3.gif')
-	# left, top, right, bottom.
-	# 0: Exit button.
-	# 1: Return to main menu.
-       img_rects = [
-              Rect(750, 0, 829, 64),
-              Rect(327, 462, 541, 526)]
-       self.imagemapper = ImageMapper(self.picture, img_rects)
-        # use Label widget to display image
-       self.image = tk.Label(self, image=self.picture, borderwidth=0)
-       self.image.bind('<Button-1>', self.image_click)
-       self.image.grid(row=1, column=0)
- 
-   def image_click(self, event):
-       hit = self.imagemapper.find_rect(event.x, event.y)
-       # If the user clicks the back button go back a page.
-       if (hit == 0):
-           self.pages[0].lift()
-       # If the user clicks the exit button, quit.
-       if (hit == 1):
-          quit()
 
 # PAGE FOUR - Write done.
 class Page4(Page):
@@ -172,27 +148,34 @@ class Page4(Page):
        self.pages = pg
    
    def create_widgets(self):
-       self.picture = tk.PhotoImage(file='W3.gif')
+       btnFont = Font(family='Helvetica', size=30, weight='bold') # This is the font we use for our buttons.
+       self.picture = tk.PhotoImage(file='HD.gif')
 	# left, top, right, bottom.
 	# 0: Exit button.
-	# 1: Return to main menu.
        img_rects = [
-              Rect(750, 0, 829, 64),
-              Rect(327, 462, 541, 526)]
+              Rect(750, 0, 829, 64)]
        self.imagemapper = ImageMapper(self.picture, img_rects)
         # use Label widget to display image
        self.image = tk.Label(self, image=self.picture, borderwidth=0)
        self.image.bind('<Button-1>', self.image_click)
-       self.image.grid(row=1, column=0)
+       self.image.grid(row=1, column=0) # This is our header.
+       self.scrTxt = Label(self, text="The story has been\nwritten and saved", font=btnFont, bg='#74A84F')
+       self.scrTxt.grid(row=2, column=0, padx=10, pady=10) # Label for word count.
+       self.picture2 = tk.PhotoImage(file='CM.gif')
+       self.check = tk.Label(self, image=self.picture2, borderwidth=0)
+       self.check.grid(row=3, column=0) # This is a check mark.
+       btnFont = Font(family='Helvetica', size=15, weight='bold') # This is the font we use for our buttons.
+       self.done = tk.Button(self, text="Done", bg='#FFD966', bd=0, height=3, width=10, font=btnFont, command=self.done_return) # Done button.
+       self.done.grid(row=4, column=0, padx=10, pady=10)
+
+   def done_return(self):
+        self.pages[0].lift()
 
    def image_click(self, event):
         hit = self.imagemapper.find_rect(event.x, event.y)
         # If the user clicks the exit button, quit.
         if (hit == 0):
             quit()
-        # If the user clicks the done button, go to write menu.
-        if (hit == 1):
-           self.pages[0].lift()
 
 # PAGE FIVE - Genre.
 class Page5(Page):
@@ -230,7 +213,7 @@ class Page5(Page):
        self.create_widgets()
        
    def setup_header(self):
-       self.picture = tk.PhotoImage(file='HEADER.gif')
+       self.picture = tk.PhotoImage(file='HB.gif')
        # 0: Back button.
        # 1: Exit button.
        img_rects = [
@@ -278,7 +261,7 @@ class PageGenre(Page):
        self.setup_header()
 
    def setup_header(self):
-       self.picture = tk.PhotoImage(file='HEADER.gif')
+       self.picture = tk.PhotoImage(file='HB.gif')
        # 0: Back button.
        # 1: Exit button.
        img_rects = [
@@ -344,4 +327,5 @@ if __name__ == "__main__":
     main = MainView(root)
     main.pack(side="top", fill="both", expand=True)
     root.wm_geometry("829x556")
+    root.resizable(False,False) # Make window unresizeable.
     root.mainloop()

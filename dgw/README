@@ -1,0 +1,28 @@
+DIGITAL GHOSTWRITER README
+
+Digital ghostwriter is designed to be run on a Linux machine that is using some graphical desktop environment (We used CentOS 7, with Gnome).
+
+Installation / Setup:
+1. python3.6 or higher must be installed on your system.
+
+2. Install tensorflow on your system at the directory ~/venvs/tensorflow.
+Guide for CentOS 7: https://gist.github.com/thoolihan/28679cd8156744a62f88
+Guide for other: https://www.tensorflow.org/install/
+
+3. Extract the contents of the dgw.zip file. You have completed installation / setup.
+
+Running Digital Ghostwriter:
+1. To run Digital Ghostwriter open the dgw directory and run the command: ./exeDGW
+Alternately if you installed tensorflow to a directory that was not listed above run the following commands:
+source ~/(location of tensorflow)/bin/activate
+python3.6 dgw.py
+
+Viewing genre and authors: 
+From the main menu select "genre", here you will see current completed genre (You should see horror).
+Next click on horror to see the current authors for the horror genre. 
+
+Creating a horror story:
+From the main menu select "write", in this version of the software you can only select done for each option (horror genre, with a word count of 150 is selected by default). 
+Once you get to the page where it is asking you to name your story hitting done will start writing your story (This may take up to five minutes based on the computer you are using). 
+When you see a page that says that 'My story' has been written and saved, you may exit the program (red button in the top right corner of the screen). 
+Your finished story can be found in the "stories" folder, it will be named myStory.txt. Multiple runs of the program will generate different stories.
