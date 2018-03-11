@@ -96,8 +96,13 @@ class Page2(Page):
    def verify_fields(self):
        try:
        	   self.string_wrdCnt = self.wrdCnt.get() # Get the word count from the word count field.
-           i = int(self.string_wrdCnt)
+           if int(self.string_wrdCnt) <= 0:
+               messagebox.showerror("Word Count Error", "Word count must be positive.")
+               return
            self.string_name = self.fileName.get() # Get the file name from the file name field.
+           if (len(self.string_name) == 0 or len(self.string_name) >= 256):
+               messagebox.showerror("Invalid File Name", "File name must be between 1 and 255 characters long (inclusive).")
+               return
            if re.fullmatch("[a-zA-Z0-9_-]*", self.string_name) is None:
                messagebox.showerror("Invalid File Name", "File name may contain only alphanumeric characters, '_', and '-'.")
                return
