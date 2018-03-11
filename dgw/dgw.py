@@ -5,7 +5,9 @@ from collections import namedtuple
 import tkinter as tk
 from tkinter.font import Font
 from tkinter import *
+from tkinter import messagebox
 import os
+import re
 import time
 import math
 
@@ -77,7 +79,7 @@ class Page2(Page):
        self.fileLabel.grid(row=3, column=0, padx=10, pady=10) # Label for story name.
        self.fileName = Entry(frameDone, font=btnFont)
        self.fileName.grid(row=4, column=0, padx=10, pady=10) # Text field for file name.
-       self.done = tk.Button(frameDone, text="Done", bg='#FFD966', bd=0, height=3, width=10, font=btnFont, command= self.write_story ) # Done button.
+       self.done = tk.Button(frameDone, text="Done", bg='#FFD966', bd=0, height=3, width=10, font=btnFont, command= self.verify_fields) # Done button.
        self.done.grid(row=5, column=0, padx=10, pady=30)
        self.btns = []
        i = 0
@@ -91,14 +93,24 @@ class Page2(Page):
               i = 0
               ii += 1
 
+   def verify_fields(self):
+       try:
+       	   self.string_wrdCnt = self.wrdCnt.get() # Get the word count from the word count field.
+           i = int(self.string_wrdCnt)
+           self.string_name = self.fileName.get() # Get the file name from the file name field.
+           if re.fullmatch("[a-zA-Z0-9_-]*", self.string_name) is None:
+               messagebox.showerror("Invalid File Name", "File name may contain only alphanumeric characters, '_', and '-'.")
+               return
+           self.write_story()
+       except ValueError:
+           messagebox.showerror("Word Count Error", "Please enter a number.")
+
    def write_story(self):
        self.picturepop = tk.PhotoImage(file='WW.gif')
        self.imagepop = tk.Label(self, image=self.picturepop, borderwidth=0)
        self.imagepop.grid(row=0, column=0) # Display an image saying 'Writing story to file... please wait'.
        self.update() # Updates our image before running next command.
-       string_wrdCnt = self.wrdCnt.get() # Get the word count from the word count entry.
-       string_name = self.fileName.get() # Get the file name from the file name entry.
-       cmd = "python sample.py -n " + string_wrdCnt + " --quiet --save_dir save/horror > ./stories/" + string_name  + ".txt" # Save our command with vars.
+       cmd = "python sample.py -n " + self.string_wrdCnt + " --quiet --save_dir save/horror > ./stories/" + self.string_name  + ".txt" # Save our command with vars.
        self.wrdCnt.delete(0, END) # Clear word count entry.
        self.fileName.delete(0, END) # Clear file name entry.
        os.system(cmd) # Next write our file.
