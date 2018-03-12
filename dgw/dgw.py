@@ -84,7 +84,7 @@ class WriteSpecs(Page):
        self.btns = []
        i = 0
        ii = 1
-       self.current_genre = "comedy"
+       self.current_genre = ""
        for x in os.listdir("./genre"):       
            self.btns.append(tk.Button(frame, text=x, bg='#B6D7A8', bd=0, height=3, width=15, font=btnFont, command= lambda y=x: self.genre_pressed(y))) # Genre buttons.
        for b in self.btns:
@@ -93,20 +93,26 @@ class WriteSpecs(Page):
            if i > 2:
               i = 0
               ii += 1
+
    def genre_pressed(self, text):
        for b in self.btns:
            b.configure(bg='#B6D7A8')           
            if b['text'] in text:
                b.configure(bg='#FFD966')
                self.current_genre = text
+   
    def verify_fields(self):
        try:
+           if self.current_genre == "":
+               messagebox.showerror("Genre Selection Error", "Please select a genre.")
+               return
        	   self.string_wrdCnt = self.wrdCnt.get() # Get the word count from the word count field.
-           if int(self.string_wrdCnt) <= 0:
-               messagebox.showerror("Word Count Error", "Word count must be positive.")
+           wc = int(self.string_wrdCnt)
+           if wc <= 0 or wc > 1000000:
+               messagebox.showerror("Word Count Error", "Word count must be a positive number less than one million.")
                return
            self.string_name = self.fileName.get() # Get the file name from the file name field.
-           if (len(self.string_name) == 0 or len(self.string_name) >= 256):
+           if len(self.string_name) == 0 or len(self.string_name) >= 256:
                messagebox.showerror("Invalid File Name", "File name must be between 1 and 255 characters long (inclusive).")
                return
            if re.fullmatch("[a-zA-Z0-9_-]*", self.string_name) is None:
