@@ -111,6 +111,7 @@ class WriteSpecs(Page):
            if wc <= 0 or wc > 1000000:
                messagebox.showerror("Word Count Error", "Word count must be a positive number less than one million.")
                return
+           self.string_wrdCnt = str(wc - 1)
            self.string_name = self.fileName.get() # Get the file name from the file name field.
            if len(self.string_name) == 0 or len(self.string_name) >= 256:
                messagebox.showerror("Invalid File Name", "File name must be between 1 and 255 characters long (inclusive).")
