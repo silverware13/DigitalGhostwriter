@@ -19,8 +19,8 @@ class Page(tk.Frame):
     def show(self):
         self.lift()
 
-# PAGE ONE - Main menu.
-class Page1(Page):
+# Main menu.
+class MainMenu(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
        self.grid()
@@ -52,13 +52,13 @@ class Page1(Page):
           quit()
 	# If the user clicks the genre button go to the genre menu.
        if (hit == 1):
-           self.pages[4].lift()
+           self.pages[3].lift()
 	# If the user clicks the write button go to the write menu.
        if (hit == 2):
            self.pages[1].lift()
 
-# PAGE TWO - Write.
-class Page2(Page):
+# Write specifications.
+class WriteSpecs(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
        self.configure(bg='#74A84F') # Set our background to a green color.
@@ -129,7 +129,7 @@ class Page2(Page):
        if exstat != 0:
            messagebox.showerror("Write Error", "Failed to write story.")
        else:
-           self.pages[3].lift() # When done writing story go to finished page.
+           self.pages[2].lift() # When done writing story go to finished page.
        
    def setup_pages(self, pg):
        self.pages = pg
@@ -158,7 +158,7 @@ class Page2(Page):
           quit()
 
 # PAGE THREE - <REMOVE ME>
-class Page3(Page):
+class Useless(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
        self.grid()
@@ -167,8 +167,8 @@ class Page3(Page):
    def setup_pages(self,pg):
        self.pages = pg
 
-# PAGE FOUR - Write done.
-class Page4(Page):
+# Write was successful.
+class WriteSuccess(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
        self.grid()
@@ -208,8 +208,8 @@ class Page4(Page):
         if (hit == 0):
             quit()
 
-# PAGE FIVE - Genre.
-class Page5(Page):
+# View genres.
+class GenreView(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
        self.configure(bg='#6D9EEB') # Set our background to a blue color.
@@ -316,19 +316,17 @@ class PageGenre(Page):
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
-        p5 = Page5(self)
-        p4 = Page4(self)
-        p3 = Page3(self)
-        p2 = Page2(self)
-        p1 = Page1(self)
+        p1 = MainMenu(self)
+        p2 = WriteSpecs(self)
+        p3 = WriteSuccess(self)
+        p4 = GenreView(self)
         
-        pg = [p1,p2,p3,p4,p5]
+        pg = [p1,p2,p3,p4]
         
         p1.setup_pages(pg)
         p2.setup_pages(pg)
         p3.setup_pages(pg)
         p4.setup_pages(pg)
-        p5.setup_pages(pg)
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -337,7 +335,6 @@ class MainView(tk.Frame):
         p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p4.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-        p5.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
         p1.show()
 
