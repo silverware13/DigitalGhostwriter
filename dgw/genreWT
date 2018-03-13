@@ -16,6 +16,7 @@ while read word
         if [ $res -eq 0 ]
         then
             echo "$word not found in $2"
+            rm -f source$$
             rm -f temp$$
             exit 1
         fi
