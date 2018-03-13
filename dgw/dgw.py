@@ -108,8 +108,8 @@ class WriteSpecs(Page):
                return
        	   self.string_wrdCnt = self.wrdCnt.get() # Get the word count from the word count field.
            wc = int(self.string_wrdCnt)
-           if wc <= 0 or wc > 1000000:
-               messagebox.showerror("Word Count Error", "Word count must be a positive number less than one million.")
+           if wc <= 0 or wc > 10000:
+               messagebox.showerror("Word Count Error", "Word count must be a positive number no greater than ten thousand.")
                return
            self.string_wrdCnt = str(wc - 1)
            self.string_name = self.fileName.get() # Get the file name from the file name field.
