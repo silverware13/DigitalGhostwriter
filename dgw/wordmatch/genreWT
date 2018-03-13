@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ $# != 2 ]
+then
+    echo "usage: genreWT [story] [source]"
+    exit 1
+fi
+
+cat $1 | tr " " "\n" > temp$$
+
+while read word
+    do
+        res=$(grep -c -w "$word" $2)
+        if [ $res -eq 0 ]
+        then
+            echo "$word not found in $2"
+            rm -f temp$$
+            exit 1
+        fi
+    done < temp$$
+
+rm -f temp$$
