@@ -2,15 +2,17 @@
 
 if [ $# != 2 ]
 then
-    echo "usage: genreWT [story] [source]"
+    echo "usage: genreWT [story] [genre]"
     exit 1
 fi
 
 cat $1 | tr " " "\n" > temp$$
 
+cat genre/$2/* > source$$
+
 while read word
     do
-        res=$(grep -c -w "$word" $2)
+        res=$(grep -c -w "$word" source$$)
         if [ $res -eq 0 ]
         then
             echo "$word not found in $2"
@@ -20,3 +22,4 @@ while read word
     done < temp$$
 
 rm -f temp$$
+rm -f source$$
