@@ -128,7 +128,7 @@ class WriteSpecs(Page):
        self.imagepop = tk.Label(self, image=self.picturepop, borderwidth=0)
        self.imagepop.grid(row=0, column=0) # Display an image saying 'Writing story to file... please wait'.
        self.update() # Updates our image before running next command.
-       cmd = "python sample.py -n " + self.string_wrdCnt + " --quiet --save_dir save/" + self.current_genre + " > ./stories/" + self.string_name  + ".txt" # Save our command with vars.
+       cmd = "python sample.py -n " + self.string_wrdCnt + " --quiet --save_dir save/" + self.current_genre + " > ./stories/" + self.string_name  + ".txt 2> /dev/null" # Save our command with vars.
        self.wrdCnt.delete(0, END) # Clear word count entry.
        self.fileName.delete(0, END) # Clear file name entry.
        exstat = os.system(cmd) # Next write our file.
