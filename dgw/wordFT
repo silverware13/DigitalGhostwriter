@@ -1,0 +1,24 @@
+#!/bin/bash
+source ~/venvs/tensorflow/bin/activate
+echo "TEST START"
+
+fileName=(A WORD MULTIPLEWORDS)
+wordCount=(1 50 500 10000)
+
+for i in "${fileName[@]}"
+do
+	for ii in "${wordCount[@]}"
+	do
+		python sample.py -n $((ii - 1)) --quiet --save_dir save/horror > ./stories/$i.txt 2> /dev/null
+		words=($(wc -w ./stories/$i.txt))
+		if (( $words == $ii ))
+		then
+			echo "$ii $i.txt = SUCCESS"
+		else
+			echo "$ii $i.txt = FAILED"
+		fi
+	done
+done
+
+echo "TEST DONE"
+deactivate
